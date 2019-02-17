@@ -1,6 +1,7 @@
 import fr.inria.corese.core.Graph;
 import fr.inria.corese.core.load.Load;
 import fr.inria.corese.core.load.LoadException;
+import fr.inria.corese.core.print.JSONLDFormat;
 import fr.inria.corese.core.print.ResultFormat;
 import fr.inria.corese.core.query.QueryProcess;
 import fr.inria.corese.core.rule.RuleEngine;
@@ -16,11 +17,11 @@ public class Engine {
     Load ld = Load.create(graph);
 
     ld.parse(
-        "/Users/sebastien/Documents/Polytech/Si5/Majeurs/Web_Semantique/Projet/FinalProjectSemanticWeb/resources/videoGameOntology.owl");
+        getClass().getResource("wikidataVideoGameOntology.owl").getPath());
     ld.parse(
-        "/Users/sebastien/Documents/Polytech/Si5/Majeurs/Web_Semantique/Projet/FinalProjectSemanticWeb/resources/videoGameRules.rul");
+        getClass().getResource("videoGameRules.rul").getPath());
     ld.parse(
-        "/Users/sebastien/Documents/Polytech/Si5/Majeurs/Web_Semantique/Projet/FinalProjectSemanticWeb/resources/instances.rdf");
+        getClass().getResource("outInstances.rdf").getPath());
 
     RuleEngine re = ld.getRuleEngine();
     re.process();

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rdf:RDF [
+   <!ENTITY humans   "http://www.inria.fr/2007/09/11/humans.rdfs"> 
+   <!ENTITY xsd      "http://www.w3.org/2001/XMLSchema#"> ]>
+ 
+<rdf:RDF xmlns="http://www.videogame-project.fr/2019/videoGameOntology.owl#"
+     xml:base="http://www.videogame-project.fr/2019/videoGameOntology.owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+     xmlns:wdt="http://www.wikidata.org/prop/direct/"
+     xmlns:wd="http://www.wikidata.org/entity/"
+     xmlns:vg="http://www.videogame-project.fr/2019/videoGameOntology.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+
+<Genre rdf:ID="Game">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>Game</categorieName>
+  <skos:narrower rdf:resource="#Sports"/>
+</Genre>
+<Genre rdf:ID="Sports">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>Sports</categorieName>
+  <skos:narrower rdf:resource="#Racing"/>
+</Genre>
+<Genre rdf:ID="Racing">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>Racing</categorieName>
+</Genre>
+<Genre rdf:ID="Violent">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>Violent</categorieName>
+  <skos:narrower rdf:resource="#Gore"/>
+</Genre>
+<Genre rdf:ID="Gore">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>Gore</categorieName>
+</Genre>
+<Genre rdf:ID="Simulation">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>Simulation</categorieName>
+  <skos:narrower rdf:resource="#Accounting"/>
+</Genre>
+<Genre rdf:ID="Accounting">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>Accounting</categorieName>
+</Genre>
+<Genre rdf:ID="Adventure">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>Adventure</categorieName>
+  <skos:narrower rdf:resource="#RPG"/>
+</Genre>
+<Genre rdf:ID="RPG">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>RPG</categorieName>
+</Genre>
+<Genre rdf:ID="Action">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>Action</categorieName>
+</Genre>
+<Genre rdf:ID="Strategy">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>Strategy</categorieName>
+</Genre>
+<Genre rdf:ID="Software">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>Software</categorieName>
+  <skos:narrower rdf:resource="#Utilities"/>
+  <skos:narrower rdf:resource="#WebPublishing"/>
+  <skos:narrower rdf:resource="#Multimedia"/>
+  <skos:narrower rdf:resource="#SoftwareTraining"/>
+</Genre>
+<Genre rdf:ID="Utilities">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>Utilities</categorieName>
+</Genre>
+<Genre rdf:ID="WebPublishing">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>WebPublishing</categorieName>
+</Genre>
+<Genre rdf:ID="Multimedia">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>Multimedia</categorieName>
+  <skos:narrower rdf:resource="#AudioProduction"/>
+  <skos:narrower rdf:resource="#PhotoEditing"/>
+  <skos:narrower rdf:resource="#VideoProduction"/>
+  <skos:narrower rdf:resource="#Art"/>
+  <skos:narrower rdf:resource="#GameDevelopment"/>
+</Genre>
+<Genre rdf:ID="AudioProduction">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>AudioProduction</categorieName>
+</Genre>
+<Genre rdf:ID="PhotoEditing">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>PhotoEditing</categorieName>
+</Genre>
+<Genre rdf:ID="VideoProduction">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>VideoProduction</categorieName>
+</Genre>
+<Genre rdf:ID="Art">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>Art</categorieName>
+  <skos:narrower rdf:resource="#AnimationAndModeling"/>
+  <skos:narrower rdf:resource="#DesignAndIllustration"/>
+</Genre>
+<Genre rdf:ID="AnimationAndModeling">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>AnimationAndModeling</categorieName>
+</Genre>
+<Genre rdf:ID="DesignAndIllustration">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>DesignAndIllustration</categorieName>
+</Genre>
+<Genre rdf:ID="GameDevelopment">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>GameDevelopment</categorieName>
+</Genre>
+<Genre rdf:ID="SoftwareTraining">
+  <rdf:type rdf:resource="skos:Concept"/>
+  <categorieName>SoftwareTraining</categorieName>
+</Genre>

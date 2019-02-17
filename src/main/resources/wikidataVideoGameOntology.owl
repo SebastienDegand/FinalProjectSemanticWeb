@@ -1,0 +1,131 @@
+<rdf:RDF xmlns="http://www.w3.org/2000/01/rdf-schema#"
+     xml:base="http://www.videogame-project.fr/2019/videoGameOntology.owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:wd="http://www.wikidata.org/entity/"
+     xmlns:wdt="http://www.wikidata.org/prop/direct/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+<!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->     
+
+<owl:Class rdf:ID="Genre">
+</owl:Class>
+
+<owl:Class rdf:ID="TripleA">
+  <rdfs:subClassOf rdf:resource="#VideoGame"/>
+</owl:Class>
+
+<owl:Class rdf:ID="IndependantGame">
+	<rdfs:subClassOf rdf:resource="#VideoGame"/>
+</owl:Class>
+
+<owl:Class rdf:ID="RetroGame">
+  <rdfs:subClassOf rdf:resource="#VideoGame"/>
+</owl:Class>
+
+
+
+<!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+<!-- 
+    /////////////////
+    //
+    // Genre properties
+    //
+    /////////////////
+     -->
+
+<owl:ObjectProperty rdf:ID="wdt:categorieName">
+  <range rdf:resource="#Genre"/>
+</owl:ObjectProperty>
+
+<!-- 
+    /////////////////
+    //
+    // VideoGame properties
+    //
+    /////////////////
+     -->
+
+
+<owl:ObjectProperty rdf:ID="wdt:topOfYear">
+    <domain>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="wdt:P31" />
+          <owl:someValuesFrom rdf:resource="wd:Q7889" />
+        </owl:Restriction>
+    </domain>
+	<range rdf:resource="#Year"/>
+</owl:ObjectProperty>
+
+<owl:TransitiveProperty rdf:ID="wdt:hasPreviousGame">
+	<domain>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="wdt:P31" />
+          <owl:someValuesFrom rdf:resource="wd:Q7889" />
+        </owl:Restriction>
+    </domain>
+	<range>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="wdt:P31" />
+          <owl:someValuesFrom rdf:resource="wd:Q7889" />
+        </owl:Restriction>
+    </range>
+</owl:TransitiveProperty>
+
+<owl:TransitiveProperty rdf:ID="wdt:hasNextGame">
+	<owl:inverseOf rdf:resource="#hasPreviousGame" />
+</owl:TransitiveProperty>
+
+<owl:ObjectProperty rdf:ID="wdt:numberOfsells">
+	<domain>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="wdt:P31" />
+          <owl:someValuesFrom rdf:resource="wd:Q7889" />
+        </owl:Restriction>
+    </domain>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="wdt:hasGenre">
+    <domain>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="wdt:P31" />
+          <owl:someValuesFrom rdf:resource="wd:Q7889" />
+        </owl:Restriction>
+    </domain>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="wdt:hasUserScore">
+    <domain>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="wdt:P31" />
+          <owl:someValuesFrom rdf:resource="wd:Q7889" />
+        </owl:Restriction>
+    </domain>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="wdt:hasName">
+    <domain>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="wdt:P31" />
+          <owl:someValuesFrom rdf:resource="wd:Q7889" />
+        </owl:Restriction>
+    </domain>
+</owl:ObjectProperty>
+
+</rdf:RDF>

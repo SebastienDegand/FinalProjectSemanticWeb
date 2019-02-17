@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rdf:RDF [
+<!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#">
+<!ENTITY rul "http://ns.inria.fr/edelweiss/2011/rule#">
+<!ENTITY owl "http://www.w3.org/2002/07/owl#">
+]>
+
+<rdf:RDF xmlns:rdfs="&rdfs;" xmlns:rdf="&rdf;" xmlns:owl="&owl;" xmlns = '&rul;' >
+
+<rule>
+<body>
+<![CDATA[
+PREFIX vg: <http://www.videogame-project.fr/2019/videoGameOntology.owl#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+construct {
+  ?game a vg:TripleA .
+}
+where {
+	?game a vg:VideoGame .
+	?game wdt:topOfYear ?year .
+}
+]]>
+</body>
+</rule>
+
+<rule>
+<body>
+<![CDATA[
+PREFIX vg: <http://www.videogame-project.fr/2019/videoGameOntology.owl#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+construct {
+	?game a vg:RetroGame .
+}
+where {
+	?game a vg:VideoGame .
+	?game wdt:P577 ?publicationDate .
+	FILTER ( xsd:dateTime(?publicationDate) < xsd:dateTime("1999-01-01T00:00:00+00:00"))
+}
+]]>
+</body>
+</rule>
+
+<rule>
+<body>
+<![CDATA[
+PREFIX vg: <http://www.videogame-project.fr/2019/videoGameOntology.owl#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+construct {
+  ?game a vg:TripleA .
+}
+where {
+	?game a vg:VideoGame .
+	?game wdt:hasPreviousGame ?previousGame
+	?previousGame a vg:TripleA
+}
+]]>
+</body>
+</rule>
+
+<rule>
+<body>
+<![CDATA[
+PREFIX vg: <http://www.videogame-project.fr/2019/videoGameOntology.owl#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+construct {
+  ?game a vg:IndependantGame .
+}
+where {
+	?game a vg:VideoGame .
+	?game wdt:hasGenre vg:Indie .
+}
+]]>
+</body>
+</rule>
+</rdf:RDF>
