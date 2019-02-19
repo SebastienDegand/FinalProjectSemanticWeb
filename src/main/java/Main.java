@@ -10,12 +10,18 @@ public class Main {
     Engine engine = new Engine();
     System.out.println("instances loaded !");
 
+    QueryGenerator queryGenerator = new QueryGenerator();
+
     Spark.get("/hello", (req, res) -> {
       String query = req.queryParams("query");
       String result = engine.doQuery(query);
       return result;
     });
 
+    /**
+     * GET /videogames
+     * Get all videogames in the system with their name
+     */
     Spark.get("/videogames", (req, res) -> {
       res.type("application/json");
       String query = "PREFIX vg: <http://www.videogame-project.fr/2019/videoGameOntology.owl#> \n"
@@ -30,6 +36,11 @@ public class Main {
       return xmlToJson(result);
     });
 
+    /**
+     * GET /videogames/:videogames
+     * param:
+     * - videogame: id of a video game to get info
+     */
     Spark.get("/videogames/:videogame", (req, res) -> {
       res.type("application/json");
       String query = "PREFIX vg: <http://www.videogame-project.fr/2019/videoGameOntology.owl#> \n"
@@ -43,20 +54,29 @@ public class Main {
       return xmlToJson(result);
     });
 
+    /**
+     * GET /recommendation/:videogame
+     * param:
+     * - videogame: id of a video game to which we will
+     *              find similar game
+     * queryParams:
+     * - level: number corresponding of the level of abstraction of categories.
+     *          Categories are in a hierarchy. More this parameter is high, more we
+     *          search games with categories which are high in the hierarchy.
+     *          (level 0 is same as nothing and search only games with exactly the same
+     *          categories)
+     */
     Spark.get("/recommendation/:videogame", (req, res) -> {
       res.type("application/json");
       String idVideoGame = req.params(":videogame");
-      String level = req.queryParams("level");
-      String query = "PREFIX vg: <http://www.videogame-project.fr/2019/videoGameOntology.owl#> \n"
-          + "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n"
-          + "SELECT ?recomGame ?recomGameName \n"
-          + "WHERE \n"
-          + "{\n"
-          + "vg:"+ idVideoGame +" wdt:hasGenre ?genre .\n"
-          + "?recomGame wdt:hasGenre ?genre .\n"
-          + "?recomGame wdt:hasUserScore ?userScore .\n"
-          + "?recomGame wdt:hasName ?recomGameName .\n"
-          + "} order by desc(?userScore)";
+      String levelParam = req.queryParams("level");
+      String query;
+      if(isNumber(levelParam)) {
+        query = queryGenerator.generateRecommendationQuery(idVideoGame, Integer.parseInt(levelParam));
+      } else {
+        query = queryGenerator.generateRecommendationQuery(idVideoGame);
+      }
+      System.out.println(query);
       String result = engine.doQuery(query);
       return xmlToJson(result);
     });
@@ -67,6 +87,15 @@ public class Main {
       JSONObject xmlJSONObj = XML.toJSONObject(xml);
       String jsonPrettyPrintString = xmlJSONObj.toString(4);
       return jsonPrettyPrintString;
+  }
+
+  private static boolean isNumber(String s) {
+    try{
+      int n = Integer.parseInt(s);
+      return true;
+    } catch (NullPointerException | NumberFormatException e) {
+      return false;
+    }
   }
 
 

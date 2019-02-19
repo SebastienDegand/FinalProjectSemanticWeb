@@ -77,4 +77,22 @@ where {
 ]]>
 </body>
 </rule>
+
+<rule>
+<body>
+<![CDATA[
+PREFIX vg: <http://www.videogame-project.fr/2019/videoGameOntology.owl#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+construct {
+  ?topGenre skos:broader ?genre .
+}
+where {
+	?genre a vg:Genre .
+	?genre skos:narrower ?topGenre .
+}
+]]>
+</body>
+</rule>
 </rdf:RDF>
