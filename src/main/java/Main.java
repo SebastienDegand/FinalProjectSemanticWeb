@@ -12,18 +12,30 @@ public class Main {
 
     QueryGenerator queryGenerator = new QueryGenerator();
 
-    Spark.get("/hello", (req, res) -> {
+    /**
+     * GET /query
+     * queryParams:
+     * - query: sparql query to compute
+     * - format: select format of response (json or xml). xml by default
+     */
+    Spark.get("/query", (req, res) -> {
       String query = req.queryParams("query");
       String result = engine.doQuery(query);
-      return result;
+      if(req.queryParams("format") != null && req.queryParams("format").equals("json")) {
+        res.type("application/json");
+        return xmlToJson(result);
+      } else {
+        return result;
+      }
     });
 
     /**
      * GET /videogames
      * Get all videogames in the system with their name
+     * queryParams:
+     * - format: select format of response (json or xml). xml by default
      */
     Spark.get("/videogames", (req, res) -> {
-      res.type("application/json");
       String query = "PREFIX vg: <http://www.videogame-project.fr/2019/videoGameOntology.owl#> \n"
           + "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n"
           + "SELECT ?game ?name \n"
@@ -33,16 +45,22 @@ public class Main {
           + "?game wdt:hasName ?name .\n"
           + "}";
       String result = engine.doQuery(query);
-      return xmlToJson(result);
+      if(req.queryParams("format") != null && req.queryParams("format").equals("json")) {
+        res.type("application/json");
+        return xmlToJson(result);
+      } else {
+        return result;
+      }
     });
 
     /**
      * GET /videogames/:videogames
      * param:
      * - videogame: id of a video game to get info
+     * queryParams:
+     * - format: select format of response (json or xml). xml by default
      */
     Spark.get("/videogames/:videogame", (req, res) -> {
-      res.type("application/json");
       String query = "PREFIX vg: <http://www.videogame-project.fr/2019/videoGameOntology.owl#> \n"
           + "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n"
           + "SELECT ?p ?o \n"
@@ -51,7 +69,12 @@ public class Main {
           + "vg:"+ req.params(":videogame") +" ?p ?o .\n"
           + "}";
       String result = engine.doQuery(query);
-      return xmlToJson(result);
+      if(req.queryParams("format") != null && req.queryParams("format").equals("json")) {
+        res.type("application/json");
+        return xmlToJson(result);
+      } else {
+        return result;
+      }
     });
 
     /**
@@ -65,9 +88,9 @@ public class Main {
      *          search games with categories which are high in the hierarchy.
      *          (level 0 is same as nothing and search only games with exactly the same
      *          categories)
+     * - format: select format of response (json or xml). xml by default
      */
     Spark.get("/recommendation/:videogame", (req, res) -> {
-      res.type("application/json");
       String idVideoGame = req.params(":videogame");
       String levelParam = req.queryParams("level");
       String query;
@@ -78,7 +101,12 @@ public class Main {
       }
       System.out.println(query);
       String result = engine.doQuery(query);
-      return xmlToJson(result);
+      if(req.queryParams("format") != null && req.queryParams("format").equals("json")) {
+        res.type("application/json");
+        return xmlToJson(result);
+      } else {
+        return result;
+      }
     });
 
   }
