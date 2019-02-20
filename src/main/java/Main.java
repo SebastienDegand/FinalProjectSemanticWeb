@@ -1,4 +1,5 @@
 import fr.inria.corese.core.load.LoadException;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.XML;
@@ -11,6 +12,7 @@ public class Main {
     System.out.println("instances loaded !");
 
     QueryGenerator queryGenerator = new QueryGenerator();
+    WikidataQuery wikidataQuery = new WikidataQuery();
 
     /**
      * GET /query
@@ -23,9 +25,9 @@ public class Main {
       String result = engine.doQuery(query);
       if(req.queryParams("format") != null && req.queryParams("format").equals("json")) {
         res.type("application/json");
-        return xmlToJson(result);
-      } else {
         return result;
+      } else {
+        return jsonToXml(result);
       }
     });
 
@@ -47,9 +49,9 @@ public class Main {
       String result = engine.doQuery(query);
       if(req.queryParams("format") != null && req.queryParams("format").equals("json")) {
         res.type("application/json");
-        return xmlToJson(result);
-      } else {
         return result;
+      } else {
+        return jsonToXml(result);
       }
     });
 
@@ -71,9 +73,9 @@ public class Main {
       String result = engine.doQuery(query);
       if(req.queryParams("format") != null && req.queryParams("format").equals("json")) {
         res.type("application/json");
-        return xmlToJson(result);
-      } else {
         return result;
+      } else {
+        return jsonToXml(result);
       }
     });
 
@@ -89,32 +91,42 @@ public class Main {
      *          (level 0 is same as nothing and search only games with exactly the same
      *          categories)
      * - format: select format of response (json or xml). xml by default
+     * - samePublisher: (true or false) If true, select game which have the same publisher
      */
     Spark.get("/recommendation/:videogame", (req, res) -> {
       String idVideoGame = req.params(":videogame");
       String levelParam = req.queryParams("level");
+      String samePublisher = req.queryParams("samePublisher");
       String query;
       if(isNumber(levelParam)) {
         query = queryGenerator.generateRecommendationQuery(idVideoGame, Integer.parseInt(levelParam));
       } else {
         query = queryGenerator.generateRecommendationQuery(idVideoGame);
       }
-      System.out.println(query);
+
       String result = engine.doQuery(query);
+
+      if(Boolean.parseBoolean(samePublisher)) {
+        String wikidataQueryPublisher = wikidataQuery.generateSamePublisherQuery(idVideoGame);
+        String wikidataResult = wikidataQuery.wikidataRequest(wikidataQueryPublisher);
+
+        result = getIntersection(result, wikidataResult);
+      }
+
       if(req.queryParams("format") != null && req.queryParams("format").equals("json")) {
         res.type("application/json");
-        return xmlToJson(result);
-      } else {
         return result;
+      } else {
+        return jsonToXml(result);
       }
     });
 
   }
 
-  private static String xmlToJson(String xml) {
-      JSONObject xmlJSONObj = XML.toJSONObject(xml);
-      String jsonPrettyPrintString = xmlJSONObj.toString(4);
-      return jsonPrettyPrintString;
+  private static String jsonToXml(String jsonString) {
+    JSONObject json = new JSONObject(jsonString);
+    String xml = XML.toString(json);
+    return xml;
   }
 
   private static boolean isNumber(String s) {
@@ -124,6 +136,29 @@ public class Main {
     } catch (NullPointerException | NumberFormatException e) {
       return false;
     }
+  }
+
+  private static String getIntersection(String localResult, String wikidataResult) {
+    JSONObject jsonLocalResult = new JSONObject(localResult);
+    JSONObject jsonWikidataResult = new JSONObject(wikidataResult);
+
+    JSONArray localResultArray = jsonLocalResult.getJSONObject("sparql").getJSONObject("results").getJSONArray("result");
+    JSONArray wikidataResultArray = jsonWikidataResult.getJSONObject("results").getJSONArray("bindings");
+    JSONArray resultIntersection = new JSONArray();
+
+    for(int i = 0; i<localResultArray.length(); i++) {
+      String game1 = localResultArray.getJSONObject(i).getJSONArray("binding").getJSONObject(0).getString("uri");
+      for(int j = 0; j<wikidataResultArray.length(); j++) {
+          String game2 = wikidataResultArray.getJSONObject(j).getJSONObject("game").getString("value");
+          if(game1.split("http://www.videogame-project.fr/2019/videoGameOntology.owl#")[1].equals(game2.split("http://www.wikidata.org/entity/")[1])) {
+            resultIntersection.put(localResultArray.getJSONObject(i));
+            break;
+          }
+      }
+    }
+    jsonLocalResult.getJSONObject("sparql").getJSONObject("results").remove("result");
+    jsonLocalResult.getJSONObject("sparql").getJSONObject("results").put("result", resultIntersection);
+    return jsonLocalResult.toString();
   }
 
 

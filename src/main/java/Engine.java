@@ -7,6 +7,8 @@ import fr.inria.corese.core.query.QueryProcess;
 import fr.inria.corese.core.rule.RuleEngine;
 import fr.inria.corese.kgram.core.Mappings;
 import fr.inria.corese.sparql.exceptions.EngineException;
+import org.json.JSONObject;
+import org.json.XML;
 
 public class Engine {
 
@@ -33,7 +35,13 @@ public class Engine {
     QueryProcess exec = QueryProcess.create(graph);
     Mappings map = exec.query(query);
     ResultFormat resultFormat = ResultFormat.create(map);
-    return resultFormat.toString();
+    return xmlToJson(resultFormat.toString());
+  }
+
+  private String xmlToJson(String xml) {
+    JSONObject xmlJSONObj = XML.toJSONObject(xml);
+    String jsonPrettyPrintString = xmlJSONObj.toString(4);
+    return jsonPrettyPrintString;
   }
 
 }
