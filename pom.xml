@@ -54,5 +54,30 @@
 
 
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>java</executable>
+          <mainClass>Main</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+
+  </build>
+
+
+
+
 
 </project>

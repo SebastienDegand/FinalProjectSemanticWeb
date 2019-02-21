@@ -38,6 +38,8 @@ public class Main {
      * - format: select format of response (json or xml). xml by default
      */
     Spark.get("/videogames", (req, res) -> {
+      res.header("Access-Control-Allow-Origin", "*");
+
       String query = "PREFIX vg: <http://www.videogame-project.fr/2019/videoGameOntology.owl#> \n"
           + "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n"
           + "SELECT ?game ?name \n"
@@ -63,6 +65,7 @@ public class Main {
      * - format: select format of response (json or xml). xml by default
      */
     Spark.get("/videogames/:videogame", (req, res) -> {
+          res.header("Access-Control-Allow-Origin", "*");
       String query = "PREFIX vg: <http://www.videogame-project.fr/2019/videoGameOntology.owl#> \n"
           + "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n"
           + "SELECT ?p ?o \n"
@@ -94,6 +97,8 @@ public class Main {
      * - samePublisher: (true or false) If true, select game which have the same publisher
      */
     Spark.get("/recommendation/:videogame", (req, res) -> {
+          res.header("Access-Control-Allow-Origin", "*");
+
       String idVideoGame = req.params(":videogame");
       String levelParam = req.queryParams("level");
       String samePublisher = req.queryParams("samePublisher");
