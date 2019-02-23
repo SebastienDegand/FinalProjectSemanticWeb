@@ -95,6 +95,8 @@ public class Main {
      *          categories)
      * - format: select format of response (json or xml). xml by default
      * - samePublisher: (true or false) If true, select game which have the same publisher
+     * - type: (TripleA, IndependantGame, or RetroGame) If type parameter is present, select game which have
+     *          the type specified
      */
     Spark.get("/recommendation/:videogame", (req, res) -> {
           res.header("Access-Control-Allow-Origin", "*");
@@ -102,11 +104,12 @@ public class Main {
       String idVideoGame = req.params(":videogame");
       String levelParam = req.queryParams("level");
       String samePublisher = req.queryParams("samePublisher");
+      String type = req.queryParams("type");
       String query;
       if(isNumber(levelParam)) {
-        query = queryGenerator.generateRecommendationQuery(idVideoGame, Integer.parseInt(levelParam));
+        query = queryGenerator.generateRecommendationQuery(idVideoGame, Integer.parseInt(levelParam), type);
       } else {
-        query = queryGenerator.generateRecommendationQuery(idVideoGame);
+        query = queryGenerator.generateRecommendationQuery(idVideoGame, 0, type);
       }
 
       String result = engine.doQuery(query);
