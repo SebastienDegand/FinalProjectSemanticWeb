@@ -13,6 +13,7 @@ public class QueryGenerator {
         + "\t?game a vg:VideoGame\n"
         + "\t?game wdt:hasName ?name\n"
         + "\t?game wdt:hasUserScore ?score\n"
+        + "\t?game wdt:hasGenre ?aGenre\n"
         + "\tFILTER NOT EXISTS {\n"
         + "\t\tvg:" + idVideoGame + " wdt:hasGenre ?genreSelectedGame .\n"
         + "\t\t?game wdt:hasGenre ?genreRecom .\n"
@@ -28,6 +29,7 @@ public class QueryGenerator {
             + "\t?game a vg:VideoGame\n"
             + "\t?game wdt:hasName ?name\n"
             + "\t?game wdt:hasUserScore ?score\n"
+            + "\t?game wdt:hasGenre ?aGenre\n"
             + "\tFILTER NOT EXISTS {\n"
             + "\t\tvg:" + idVideoGame + " wdt:hasGenre ?genreSelectedGame0 .\n";
         for(int j = 0; j<i+1; j++) {
