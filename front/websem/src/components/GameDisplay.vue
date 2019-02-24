@@ -32,18 +32,31 @@ export default {
         });
 
         Recommendation.$on('id', (args) => {
-            GameRequests.getRecommendation(args)
+            GameRequests.getRecommendation(args,this.recoConfig)
                 .then((result) => {
                     this.games = result;
                 })
+        });
+
+        Recommendation.$on('config', (args) => {
+            console.log("new config");
+            console.log(args);
+            this.recoConfig = args
         });
 
     },
     name: 'GameDisplay',
     data : () => {
         return {
-            games : ""
+            games : "",
+            recoConfig : {lvl: 0, publisher: false, type: null}
         }
+    },
+    mounted : function() {
+        GameRequests.getAllVideoGames(0)
+            .then((result) => {
+                this.games = result;
+            })
     }
 }
 </script>

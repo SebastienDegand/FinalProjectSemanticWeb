@@ -18,8 +18,17 @@ export default {
         return [parser.default.parseGame(await req.json())];
     },
 
-    async getRecommendation(id){
-        let req = await fetch(baseUrl + '/recommendation/' + id + '?format=json', {
+    async getRecommendation(id, config){
+        let url = baseUrl + '/recommendation/' + id + '?format=json';
+
+        url += "&level=" + config.lvl;
+        url += "&samePublisher=" + config.publisher;
+
+        if (config.type !== null){
+            url+= "&type=" + config.type;
+        }
+        console.log(url)
+        let req = await fetch(url, {
             method : 'GET'
         });
         let json = await req.json();
