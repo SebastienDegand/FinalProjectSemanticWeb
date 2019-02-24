@@ -1,7 +1,7 @@
 <template>
 <div>
-    <div class="game" v-for="game in games">
-        <SimpleGame :game="game"/>
+    <div class="game"  v-for="game in games">
+        <SimpleGame  :game="game"/>
     </div>
 </div>
 </template>
@@ -17,8 +17,8 @@ export default {
     components: {SimpleGame},
     created () {
 
-        AllGames.$on('games', () => {
-            GameRequests.getAllVideoGames()
+        AllGames.$on('games', (opt) => {
+            GameRequests.getAllVideoGames(opt.page)
                 .then((result) => {
                     this.games = result;
                 })
@@ -50,5 +50,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+    .game{
+        display: inline-block;
+        margin: 5px;
+    }
 </style>

@@ -36,10 +36,18 @@ public class Main {
      * Get all videogames in the system with their name
      * queryParams:
      * - format: select format of response (json or xml). xml by default
+     * - page: select the given page
      */
     Spark.get("/videogames", (req, res) -> {
       res.header("Access-Control-Allow-Origin", "*");
+      int page =0;
+      if(req.queryParams("page") != null){
+        try{
+          page = Integer.valueOf(req.queryParams("page"));
+        }catch (Exception e){
 
+        }
+      }
       String query = "PREFIX vg: <http://www.videogame-project.fr/2019/videoGameOntology.owl#> \n"
           + "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n"
           + "SELECT ?game ?name \n"
@@ -47,7 +55,8 @@ public class Main {
           + "{\n"
           + "?game a vg:VideoGame .\n"
           + "?game wdt:hasName ?name .\n"
-          + "}";
+          + "} LIMIT 50\n"
+          + "OFFSET " + 50*page;
       String result = engine.doQuery(query);
       if(req.queryParams("format") != null && req.queryParams("format").equals("json")) {
         res.type("application/json");

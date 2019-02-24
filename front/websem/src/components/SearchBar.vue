@@ -1,9 +1,13 @@
 <template>
   <div class="search">
-    <button v-on:click='allGames()' class="elem">All Games</button>
-    <input v-model="input" class="elem"/>
-    <button class="elem" v-on:click='byId(input)'>Search By Id</button>
-    <button class="elem" v-on:click='recommendation(input)'>Recommendation</button>
+    <md-button v-on:click='allGames()' class="elem">Home</md-button>
+    <div>
+      {{ this.page }}
+    </div>
+    <div>
+      <md-button class="md-raised" v-on:click="previouspage()"><</md-button>
+      <md-button class="md-raised" v-on:click="nextpage">></md-button>
+    </div>
   </div>
 </template>
 
@@ -18,18 +22,33 @@ export default {
     msg: String
   },
   data : () => {
-    return {input: ""}
+    return {input: "",
+            page : 0}
   },
   methods : {
+    reset : function(){
+        this.page = 0;
+        this.allGames();
+    },
     allGames : function () {
-      AllGames.$emit("games");
+      AllGames.$emit("games",{page : this.page});
     },
     byId : function(id) {
       GameById.$emit("id",id)
     },
     recommendation : function(id){
       Recommendation.$emit("id",id)
-    }
+    },
+      nextpage : function () {
+          this.page++;
+          this.allGames()
+      },
+      previouspage : function(){
+        if(this.page > 0) {
+            this.page--;
+            this.allGames();
+        }
+      }
   }
 
 }
@@ -39,6 +58,11 @@ export default {
 <style scoped>
   .elem{
     display: inline-block;
+    margin-right: 10px;
+  }
+
+  md-{
+    margin-left: 10px;
     margin-right: 10px;
   }
 

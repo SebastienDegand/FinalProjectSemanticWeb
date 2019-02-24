@@ -16,7 +16,9 @@ const propertyMapping = {
     },
     "http://www.w3.org/2002/07/owl#sameAs" : (obj, videoGame) => {
         videoGame.uri = obj.literal.content;
-        videoGame.id = videoGame.uri.split("#")[1]
+        videoGame.id = videoGame.uri.split("/")[4];
+        videoGame.url = "https://www.wikidata.org/wiki/" + videoGame.id;
+
     },
     "http://www.wikidata.org/prop/direct/P577" : (obj, videoGame) => {
         videoGame.publication = obj.literal.content;
@@ -45,7 +47,8 @@ const propertyMapping = {
 const varMapping = {
     game : (obj, videoGame) => {
         videoGame.uri = obj.uri;
-        videoGame.id = videoGame.uri.split("#")[1]
+        videoGame.id = videoGame.uri.split("#")[1];
+        videoGame.url = "https://www.wikidata.org/wiki/" + videoGame.id;
     },
     name : (obj, videoGame) => {
         videoGame.name = obj.literal.content
@@ -71,6 +74,9 @@ export default {
 
         obj = obj.sparql.results.result;
 
+        if(obj.constructor !== Array){
+            obj = [obj];
+        }
         for(let gameProperty of obj){
             let game = {};
             for(let property of gameProperty.binding){
