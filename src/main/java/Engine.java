@@ -23,7 +23,7 @@ public class Engine {
     ld.parse(
         getClass().getResource("videoGameRules.rul").getPath());
     ld.parse(
-        getClass().getResource("outInstances.rdf").getPath());
+        getClass().getResource("newInstanceGenreOut.rdf").getPath());
 
     RuleEngine re = ld.getRuleEngine();
     re.process();
