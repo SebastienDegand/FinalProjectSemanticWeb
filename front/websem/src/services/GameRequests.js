@@ -1,21 +1,28 @@
+const parser = require('./ParseGame');
+
 const baseUrl = "http://localhost:4567";
 
 export default {
     async getAllVideoGames(){
-        return await (await fetch(baseUrl + '/videogames?format=json', {
+        let req =await fetch(baseUrl + '/videogames?format=json', {
             method : 'GET'
-        })).json()
+        });
+
+        return parser.default.parseMultipleGames(await req.json());
     },
 
     async getGameById(id){
-        return await (await fetch(baseUrl +'/videogames/' + id + '?format=json', {
+        let req = await fetch(baseUrl +'/videogames/' + id + '?format=json', {
             method : 'GET'
-        })).json()
+        });
+        return parser.default.parseGame(await req.json());
     },
 
     async getRecommendation(id){
-        return await(await fetch(baseUrl + '/recommendation/' + id + '?format=json', {
+        let req = await fetch(baseUrl + '/recommendation/' + id + '?format=json', {
             method : 'GET'
-        })).json()
+        });
+
+        return parser.default.parseMultipleGames(await req.json());
     }
 }
