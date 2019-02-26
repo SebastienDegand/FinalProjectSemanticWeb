@@ -95,6 +95,7 @@ public class QueryGenerator {
 
     }
     query += "} order by desc(?score)";
+    System.out.println(query);
     return query;
   }
 
