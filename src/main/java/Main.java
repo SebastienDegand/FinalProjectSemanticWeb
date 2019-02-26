@@ -10,6 +10,7 @@ public class Main {
 
     Engine engine = new Engine();
     System.out.println("instances loaded !");
+    System.out.println("server listen on 4567");
 
     QueryGenerator queryGenerator = new QueryGenerator();
     WikidataQuery wikidataQuery = new WikidataQuery();

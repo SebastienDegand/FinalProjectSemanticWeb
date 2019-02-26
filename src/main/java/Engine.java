@@ -1,7 +1,6 @@
 import fr.inria.corese.core.Graph;
 import fr.inria.corese.core.load.Load;
 import fr.inria.corese.core.load.LoadException;
-import fr.inria.corese.core.print.JSONLDFormat;
 import fr.inria.corese.core.print.ResultFormat;
 import fr.inria.corese.core.query.QueryProcess;
 import fr.inria.corese.core.rule.RuleEngine;
@@ -19,11 +18,11 @@ public class Engine {
     Load ld = Load.create(graph);
 
     ld.parse(
-        getClass().getResource("wikidataVideoGameOntology.owl").getPath());
+        getClass().getResource("videoGameOntology.owl").getPath());
     ld.parse(
         getClass().getResource("videoGameRules.rul").getPath());
     ld.parse(
-        getClass().getResource("newInstanceGenreOut.rdf").getPath());
+        getClass().getResource("instances.rdf").getPath());
 
     RuleEngine re = ld.getRuleEngine();
     re.process();
